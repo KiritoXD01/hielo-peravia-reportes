@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <img src="./assets/logo.jpeg" alt="logo" />
-        <form autocomplete="off">
+        <form autocomplete="off" @submit.prevent="handleSubmit">
             <label>Nombre del Negocio</label>
             <input
                 type="text"
@@ -46,6 +46,9 @@
 </template>
 
 <script>
+//import emailjs from "emailjs-com";
+import Sweetalert from "sweetalert2";
+
 export default {
     name: "App",
     data() {
@@ -56,6 +59,18 @@ export default {
             celular: "",
             descripcion: ""
         };
+    },
+    methods: {
+        async handleSubmit() {
+            await Sweetalert.fire({
+                title: "Enviando Correo",
+                allowEscapeKey: false,
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Sweetalert.showLoading();
+                }
+            });
+        }
     }
 };
 </script>
