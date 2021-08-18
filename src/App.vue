@@ -46,7 +46,7 @@
 </template>
 
 <script>
-//import emailjs from "emailjs-com";
+import emailjs from "emailjs-com";
 import Sweetalert from "sweetalert2";
 
 export default {
@@ -61,8 +61,8 @@ export default {
         };
     },
     methods: {
-        async handleSubmit() {
-            await Sweetalert.fire({
+        async handleSubmit(e) {
+            Sweetalert.fire({
                 title: "Enviando Correo",
                 allowEscapeKey: false,
                 allowOutsideClick: false,
@@ -70,6 +70,70 @@ export default {
                     Sweetalert.showLoading();
                 }
             });
+
+            const EMAILJS_SERVICE_ID = process.env.EMAILJS_SERVICE_ID;
+            const EMAILJS_TEMPLATE_ID = process.env.EMAILJS_TEMPLATE_ID;
+            const EMAILJS_USER_ID = process.env.EMAILJS_USER_ID;
+
+            console.log({
+                EMAILJS_SERVICE_ID,
+                EMAILJS_TEMPLATE_ID,
+                EMAILJS_USER_ID
+            });
+
+            try {
+                emailjs
+                    .sendForm(
+                        EMAILJS_SERVICE_ID,
+                        EMAILJS_TEMPLATE_ID,
+                        e.target,
+                        EMAILJS_USER_ID,
+                        {
+                            nombre_negocio: this.nombre_negocio,
+                            direccion: this.direccion,
+                            telefono: this.telefono,
+                            celular: this.celular,
+                            descripcion: this.descripcion
+                        }
+                    )
+                    .then(() => {
+                        Sweetalert.fire({
+                            title: "Ticket enviado exitosamente",
+                            text: "El ticket ha sido enviado exitosamente",
+                            icon: "success",
+                            allowEscapeKey: false,
+                            allowOutsideClick: false,
+                            confirmButtonText: "Ok"
+                        }).then(() => {
+                            this.nombre_negocio = "";
+                            this.direccion = "";
+                            this.telefono = "";
+                            this.celular = "";
+                            this.descripcion = "";
+                        });
+                    })
+                    .catch(e => {
+                        console.og(e.message);
+                        Sweetalert.fire({
+                            title: "Ha ocurrido un error",
+                            text: "Por favor reportar a administrador",
+                            icon: "error",
+                            allowEscapeKey: false,
+                            allowOutsideClick: false,
+                            confirmButtonText: "Ok"
+                        });
+                    });
+            } catch (e) {
+                console.log(e.message);
+                Sweetalert.fire({
+                    title: "Ha ocurrido un error",
+                    text: "Por favor reportar a administrador",
+                    icon: "error",
+                    allowEscapeKey: false,
+                    allowOutsideClick: false,
+                    confirmButtonText: "Ok"
+                });
+            }
         }
     }
 };
