@@ -53,7 +53,7 @@ const App = () => {
     return (
         <div className="App">
             <Image src={logo} />
-            <Form className="form" onSubmit={handleSubmit}>
+            <Form className="form" onSubmit={handleSubmit} autocomplete="off">
                 <Form.Field
                     id="nombre_negocio"
                     control={Input}
