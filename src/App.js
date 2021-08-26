@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Form, Input, Button, Image } from "semantic-ui-react";
 import emailjs from "emailjs-com";
 import Swal from "sweetalert2";
@@ -10,6 +10,10 @@ const EMAIJS_TEMPLATE_ID = process.env.REACT_APP_EMAIJS_TEMPLATE_ID;
 const EMAIJS_USER_ID = process.env.REACT_APP_EMAIJS_USER_ID;
 
 const App = () => {
+    useEffect(() => {
+        document.title = "Hielo Peravia";
+    }, []);
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
