@@ -57,7 +57,29 @@ const App = () => {
     return (
         <div className="App">
             <Image src={logo} />
-            <Form className="form" onSubmit={handleSubmit} autocomplete="off">
+            <Form className="form" onSubmit={handleSubmit} autoComplete="off">
+                <Form.Field>
+                    <label htmlFor="tipo_reporte">Tipo Reporte</label>
+                    <select
+                        id="tipo_reporte"
+                        label="Tipo de Reporte"
+                        name="tipo_reporte"
+                        placeholder="Tipo de Reporte"
+                        defaultValue=""
+                        required
+                    >
+                        <option value="" disabled hidden>
+                            Seleccione una opcion
+                        </option>
+                        <option value="Reporte de Averia">
+                            Reporte de Averia
+                        </option>
+                        <option value="Solicitud de Nevera">
+                            Solicitud de Nevera
+                        </option>
+                    </select>
+                </Form.Field>
+
                 <Form.Field
                     id="nombre_negocio"
                     control={Input}
